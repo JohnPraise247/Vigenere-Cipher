@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en" class="dark uk-theme-zinc uk-radii-md uk-shadows-sm uk-font-sm uk-chart-default">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Vigenère Cipher</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300..700&display=swap" rel="stylesheet" />
+        <link rel="stylesheet" href="https://unpkg.com/franken-ui@2.0.0/dist/css/core.min.css" />
+        <link rel="stylesheet" href="https://unpkg.com/franken-ui@2.0.0/dist/css/utilities.min.css" />
+        <script src="https://unpkg.com/franken-ui@2.0.0/dist/js/core.iife.js" type="module"></script>
+        <script src="https://unpkg.com/franken-ui@2.0.0/dist/js/icon.iife.js" type="module"></script>
+        <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+        <!--https://lottiefiles.com/free-animation/scroll-down-animation-zTxhgOO8wn-->
+        <style>
+            body {
+                font-family: "Poppin", sans-serif;
+                font-optical-sizing: auto;
+                font-style: normal;
+            }
+
+            @media (min-width: 1024px) {
+                .bg {
+                    background-color: hsl(var(--accent)) !important;
+                }
+            }
+        </style>
+        <script>
+            function generateKey(str, key) {
+                key = key.split("");
+                if(str.length == key.length) return key.join("");
+                else {
+                    let temp = key.length;
+                    for(let i = 0; i < (str.length - temp); i++) {
+                        key.push(key[i % key.length]);
+                    }
+                }
+                return key.join("");
+            }
+
+            function cipherText(str, key) {
+                let cipher_text = "";
+                for(let i = 0; i < str.length; i++) {
+                    let x = (str[i].charCodeAt(0) + key[i].charCodeAt(0)) % 26;
+                    x += 'A'.charCodeAt(0);
+                    cipher_text += String.fromCharCode(x);
+                }
+                return cipher_text;
+            }
+
+            function originalText(cipher_text, key) {
+                let orig_text = "";
+                for(let i = 0; i < cipher_text.length; i++) {
+                    let x = (cipher_text[i].charCodeAt(0) - key[i].charCodeAt(0) + 26) % 26;
+                    x += 'A'.charCodeAt(0);
+                    orig_text += String.fromCharCode(x);
+                }
+                return orig_text;
+            }
+
+            function processCipher(action) {
+                let text = document.getElementById("text").value.toUpperCase().replace(/[^A-Z]/g, "");
+                let key = document.getElementById("key").value.toUpperCase().replace(/[^A-Z]/g, "");
+                let generatedKey = generateKey(text, key);
+                let output = action === "decrypt" ? originalText(text, generatedKey) : cipherText(text, generatedKey);
+                document.getElementById("output").value = output;
+            }
+        </script>
+    </head>
+
+    <body class="bg-background font-geist-sans text-foreground antialiased">
+        <div class="h-screen">
+            <div class="flex flex-col lg:flex-row items-center justify-between space-y-2">
+                <div class="h-screen w-full flex flex-col flex-1 items-center justify-center pt-24 lg:py-0 bg lg:sticky lg:top-0 lg:bottom-0" style="background-color: hsl(var(--background));">
+                    <h2 class="text-2xl font-bold tracking-tight">Vigenère Cipher</h2>
+                    <p class="text-muted-foreground"> A Polyalphabetic Substitution Cipher </p>
+                </div>
+                <div class="py-8 flex flex-1 flex-col items-center justify-center">
+                    <div class="flex-none hidden lg:block lg:pt-24">
+                        <a class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent ring-ring focus:outline-none focus-visible:ring-1" href="#" role="button">
+                            <span class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full">
+                                <img class="aspect-square h-full w-full" alt="logo" src="fuoye.jpg">
+                            </span>
+                        </a>
+                    </div>
+                    <div class="uk-card mt-8 size-80 h-auto lg:w-96">
+                        <div class="uk-card-body space-y-4">
+                            <div class="space-y-2"> <label class="uk-form-label" for="text">Enter plaintext</label> <input class="uk-input" id="text" type="text" placeholder=""> </div>
+                            <div class="space-y-2"> <label class="uk-form-label" for="key">Enter key</label> <input class="uk-input" id="key" type="text" placeholder=""> </div>
+                            <div class="space-y-2"> <label class="uk-form-label" for="output">Output</label> <textarea class="uk-input h-20" id="output" type="text" placeholder="" readonly disabled></textarea> </div>
+                        </div>
+                        <div class="uk-card-footer grid grid-cols-2 gap-2">
+                            <button class="uk-btn uk-btn-primary" onclick="processCipher('encrypt')">
+                                <uk-icon icon="lock"></uk-icon> &nbsp;Encrypt </button>
+                            <button class="uk-btn uk-btn-default uk-btn-secondary" onclick="processCipher('decrypt')">
+                                <uk-icon icon="unlock"></uk-icon> &nbsp;Decrypt </button>
+                        </div>
+                    </div>
+                    <dotlottie-player class="mt-24 lg:mt-5" src="https://lottie.host/02cf4489-1c27-4e9f-9e84-4ef96f79d401/Ea847o35qw.lottie" background="transparent" speed="1" style="width: 100px; height: 100px;" loop autoplay></dotlottie-player>
+                    <div class="size-80 h-auto lg:w-96">
+                        <h3 class="text-xl font-bold tracking-tight pt-5 pb-2">About Vigenère Cipher</h3>
+                        <p class="text-muted-foreground"> The Vigenère Cipher is a method of encrypting alphabetic text using a polyalphabetic substitution technique. It was first described by Giovanni Battista Bellaso in 1553, but it became widely known after being misattributed to Blaise de Vigenère, a French diplomat, in the 19th century. The cipher was considered unbreakable for centuries and was nicknamed "Le Chiffre Indéchiffrable" (The Indecipherable Cipher) until it was broken in the 19th century. </p>
+                    </div>
+                    <div class="size-80 h-auto lg:w-96 mt-20">
+                        <h4 class="text-lg font-bold tracking-tight pt-5 pb-2">Vigenère Cipher Table (Tabula Recta)</h4>
+                        <p class="text-muted-foreground"> The cipher uses a Vigenère square (also called Tabula Recta) to shift letters based on a repeating key. You can view a Vigenère table here:</p>
+                        <img class="mt-5 rounded" src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Vigen%C3%A8re_square_shading.svg" />
+                    </div>
+                    <div class="size-80 h-auto lg:w-96 mt-20">
+                        <h4 class="text-lg font-bold tracking-tight pt-5 pb-2">Methods to Solve (Break) the Vigenère Cipher</h4>
+                        <p class="text-muted-foreground mb-5">Despite its initial reputation as unbreakable, several methods were developed to decrypt Vigenère-encrypted messages:</p>
+                        <h2 class="text-md font-bold text-accent-400">1. Kasiski Examination (1863)</h2>
+                        <p class="ml-4 text-muted-foreground"><strong>Discovered by:</strong> Friedrich Kasiski.</p>
+                        <p class="ml-4 text-muted-foreground">Helps determine the key length by identifying repeating sequences in the ciphertext and measuring the distance between them.</p>
+                        <h2 class="text-md font-semibold text-accent-400 mt-8">2. Friedman Test (Index of Coincidence)</h2>
+                        <p class="ml-4 text-muted-foreground"><strong>Developed by:</strong> William F. Friedman.</p>
+                        <p class="ml-4 text-muted-foreground">Uses statistical analysis to estimate the key length by comparing the likelihood of letters repeating in the ciphertext.</p>
+                        <h2 class="text-md font-semibold text-accent-400 mt-8">3. Brute Force Attack</h2>
+                        <p class="ml-4 text-muted-foreground">If the key is short, a brute force attack (trying all possible keys) can be effective.</p>
+                        <h2 class="text-md font-semibold text-accent-400 mt-8">4. Frequency Analysis</h2>
+                        <p class="ml-4 text-muted-foreground">Once the key length is known, the ciphertext can be broken into columns, each of which is analyzed as a <strong>Caesar cipher</strong> using letter frequency analysis.</p>
+                    </div>
+                    <div class="uk-card mt-24 size-80 h-auto lg:w-96">
+                        <div class="uk-card-header">
+                            <h3 class="font-semibold leading-none tracking-tight"> Useful links</h3>
+                        </div>
+                        <div class="uk-card-body">
+                            <div class="space-y-8">
+                                <ul class="uk-nav uk-nav-primary">
+                                    <li class="mt-2">
+                                        <a href="https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher" target="_blank" class="justify-between">
+                                            <div class="flex items-center gap-x-2">
+                                                <span class="size-4">
+                                                    <uk-icon icon="link"></uk-icon>
+                                                </span>
+                                                <span>Wikipedia</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="mt-2">
+                                        <a href="https://www.geeksforgeeks.org/vigenere-cipher/" target="_blank" class="justify-between">
+                                            <div class="flex items-center gap-x-2">
+                                                <span class="size-4">
+                                                    <uk-icon icon="link"></uk-icon>
+                                                </span>
+                                                <span>Geeks for Geeks - Source code to implement vigenère Cipher</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="mt-2">
+                                        <a href="https://www.youtube.com/watch?v=SkJcmCaHqS0" target="_blank" class="justify-between">
+                                            <div class="flex items-center gap-x-2">
+                                                <span class="size-4">
+                                                    <uk-icon icon="link"></uk-icon>
+                                                </span>
+                                                <span>Youtube - Vigenere Cipher</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="mt-2">
+                                        <a href="https://www.youtube.com/watch?v=Ic4BzVggNY8" target="_blank" class="justify-between">
+                                            <div class="flex items-center gap-x-2">
+                                                <span class="size-4">
+                                                    <uk-icon icon="link"></uk-icon>
+                                                </span>
+                                                <span>Youtube - Polyalphabetic Cipher (Vigenère Cipher)</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-card size-80 h-auto lg:w-96 mt-24">
+                        <div class="uk-card-header">
+                            <h3 class="font-semibold leading-none tracking-tight">CPE504 - Group 4 </h3>
+                        </div>
+                        <div class="uk-card-body">
+                            <div class="space-y-8">
+                                <div class="flex items-center"> <span class="relative flex h-9 w-9 shrink-0 overflow-hidden rounded-full bg-accent">
+                                        <img class="aspect-square h-full w-full" alt="Avatar" src="https://api.dicebear.com/8.x/lorelei/svg?seed=Bolaji!!"> </span>
+                                    <div class="ml-4 space-y-1">
+                                        <p class="text-sm font-medium leading-none">Bolaji</p>
+                                        <p class="text-sm text-muted-foreground">Group leader</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="relative flex h-9 w-9 shrink-0 overflow-hidden rounded-full bg-accent">
+                                        <img class="aspect-square h-full w-full" alt="Avatar" src="https://api.dicebear.com/8.x/lorelei/svg?seed==Adebimpee"> </span>
+                                    <div class="ml-4 space-y-1">
+                                        <p class="text-sm font-medium leading-none">Adebimpee</p>
+                                        <p class="text-sm text-muted-foreground">Member</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="relative flex h-9 w-9 shrink-0 overflow-hidden rounded-full bg-accent">
+                                        <img class="aspect-square h-full w-full" alt="Avatar" src="https://api.dicebear.com/8.x/lorelei/svg?seed=Basit~"> </span>
+                                    <div class="ml-4 space-y-1">
+                                        <p class="text-sm font-medium leading-none">Basit</p>
+                                        <p class="text-sm text-muted-foreground">Member</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="relative flex h-9 w-9 shrink-0 overflow-hidden rounded-full bg-accent">
+                                        <img class="aspect-square h-full w-full" alt="Avatar" src="https://api.dicebear.com/8.x/lorelei/svg?seed=-c-h-r-i-s"> </span>
+                                    <div class="ml-4 space-y-1">
+                                        <p class="text-sm font-medium leading-none">Chris</p>
+                                        <p class="text-sm text-muted-foreground">Member</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="relative flex h-9 w-9 shrink-0 overflow-hidden rounded-full bg-accent">
+                                        <img class="aspect-square h-full w-full" alt="Avatar" src="https://api.dicebear.com/8.x/lorelei/svg?seed=--Daniel"> </span>
+                                    <div class="ml-4 space-y-1">
+                                        <p class="text-sm font-medium leading-none">Daniel</p>
+                                        <p class="text-sm text-muted-foreground">Member</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="relative flex h-9 w-9 shrink-0 overflow-hidden rounded-full bg-accent">
+                                        <img class="aspect-square h-full w-full" alt="Avatar" src="https://api.dicebear.com/8.x/lorelei/svg?seed=Emmagroove-"> </span>
+                                    <div class="ml-4 space-y-1">
+                                        <p class="text-sm font-medium leading-none">Emmagroove</p>
+                                        <p class="text-sm text-muted-foreground">Member</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="relative flex h-9 w-9 shrink-0 overflow-hidden rounded-full bg-accent">
+                                        <img class="aspect-square h-full w-full" alt="Avatar" src="https://api.dicebear.com/8.x/lorelei/svg?seed=JohnPrais-e"> </span>
+                                    <div class="ml-4 space-y-1">
+                                        <p class="text-sm font-medium leading-none">John</p>
+                                        <p class="text-sm text-muted-foreground">Member</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="relative flex h-9 w-9 shrink-0 overflow-hidden rounded-full bg-accent">
+                                        <img class="aspect-square h-full w-full" alt="Avatar" src="https://api.dicebear.com/8.x/lorelei/svg?seed=Olaseinth--"> </span>
+                                    <div class="ml-4 space-y-1">
+                                        <p class="text-sm font-medium leading-none">Olaseinth</p>
+                                        <p class="text-sm text-muted-foreground">Member</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="relative flex h-9 w-9 shrink-0 overflow-hidden rounded-full bg-accent">
+                                        <img class="aspect-square h-full w-full" alt="Avatar" src="https://api.dicebear.com/8.x/lorelei/svg?seed=P-eter"> </span>
+                                    <div class="ml-4 space-y-1">
+                                        <p class="text-sm font-medium leading-none">Peter</p>
+                                        <p class="text-sm text-muted-foreground">Member</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="relative flex h-9 w-9 shrink-0 overflow-hidden rounded-full bg-accent">
+                                        <img class="aspect-square h-full w-full" alt="Avatar" src="https://api.dicebear.com/8.x/lorelei/svg?seed=Samson~"> </span>
+                                    <div class="ml-4 space-y-1">
+                                        <p class="text-sm font-medium leading-none">Samson</p>
+                                        <p class="text-sm text-muted-foreground">Member</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
