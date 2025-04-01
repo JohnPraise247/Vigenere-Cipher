@@ -12,16 +12,12 @@ A simple implementation of the **Vigenère Cipher**, a polyalphabetic substituti
 - Simple and user-friendly UI
 - Built with **HTML, CSS (FrankenUI), and JavaScript**
 
-Alternatively, just visit the [Live Demo](https://johnpraise247.github.io/Vigenere-Cipher/) to use it instantly.
-
 ## 📖 How It Works
 1. Enter the **plaintext** (message you want to encrypt).
 2. Provide a **key** (a word or phrase for encryption).
 3. Click **Encrypt** to generate the cipher text.
 4. To decrypt, enter the encrypted text and the same key, then click **Decrypt**.
 
-## 🖼️ Screenshots
-![Vigenère Cipher UI](https://via.placeholder.com/800x400?text=Screenshot+Placeholder)
 
 ## 🚀 Technologies Used
 - **HTML5** - Structure
