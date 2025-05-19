@@ -20,6 +20,40 @@
                 font-optical-sizing: auto;
                 font-style: normal;
             }
+            .scroll-down {
+            	width: 120px;
+            	height: 40px;
+            	border-radius: 50%;
+            	color: #777;
+            }
+            .scroll-down span {
+            	display: inline-block;
+            	vertical-align: top;
+            }
+            .scroll-down .scroll-wheel {
+            	position: relative;
+            	display: inline-block;
+            	width: 10px;
+            	height: 10px;
+            	background: #ccc;
+            	border-radius: 50%;
+            	margin-right: 10px;
+            	animation: move 1s linear infinite;
+            }
+            
+            @keyframes move {
+              0% {
+                transform: translateY(-8px);
+                opacity: 1;
+              }
+              67%{
+                opacity: 1;
+              }
+              100% {
+                transform: translateY(20px);
+                opacity: 0;
+              }
+            }
 
             @media (min-width: 1024px) {
                 .bg {
@@ -61,11 +95,16 @@
             }
 
             function processCipher(action) {
-                let text = document.getElementById("text").value.toUpperCase().replace(/[^A-Z]/g, "");
-                let key = document.getElementById("key").value.toUpperCase().replace(/[^A-Z]/g, "");
+                let text = document.getElementById("text-" + (action == "encrypt"?"e":"d") ).value.toUpperCase().replace(/[^A-Z]/g, "");
+                let key = document.getElementById("key-" + (action == "encrypt"?"e":"d") ).value.toUpperCase().replace(/[^A-Z]/g, "");
                 let generatedKey = generateKey(text, key);
                 let output = action === "decrypt" ? originalText(text, generatedKey) : cipherText(text, generatedKey);
-                document.getElementById("output").value = output;
+                document.getElementById("output-" + (action == "encrypt"?"e":"d") ).value = output;
+                // let text = document.getElementById("text").value.toUpperCase().replace(/[^A-Z]/g, "");
+                // let key = document.getElementById("key").value.toUpperCase().replace(/[^A-Z]/g, "");
+                // let generatedKey = generateKey(text, key);
+                // let output = action === "decrypt" ? originalText(text, generatedKey) : cipherText(text, generatedKey);
+                // document.getElementById("output").value = output;
             }
         </script>
     </head>
@@ -85,7 +124,46 @@
                             </span>
                         </a>
                     </div>
-                    <div class="uk-card mt-8 size-80 h-auto lg:w-96">
+                     <ul class="uk-tab-alt lg:w-96  mt-4"  uk-switcher>
+                      <li class="usk-active"><a href="#">Encrypt</a></li>
+                      <li><a href="#">Decrypt</a></li>
+                    </ul>
+
+                    <div class="uk-switcher">
+                        <!--Encrypt-->
+                        <div class="uk-card mt-5 size-80 h-auto lg:w-96">
+                            <div class="uk-card-body space-y-4">
+                                <div class="space-y-2"> <label class="uk-form-label" for="text">Enter plaintext</label> <input class="uk-input" id="text-e" type="text" placeholder=""> </div>
+                                <div class="space-y-2"> <label class="uk-form-label" for="key">Enter key</label> <input class="uk-input" id="key-e" type="text" placeholder=""> </div>
+                                <div class="space-y-2"> <label class="uk-form-label" for="output">Output</label> <textarea class="uk-input h-20" id="output-e" type="text" placeholder="" readonly></textarea> </div>
+                            </div>
+                            <div class="uk-card-footer grid grid-cols-1 gap-2">
+                                <button class="uk-btn uk-btn-primary" onclick="processCipher('encrypt')">
+                                    <uk-icon icon="lock"></uk-icon> &nbsp;Encrypt </button>
+                            </div>
+                        </div>
+                        
+                        <!--Decrypt-->
+                        <div class="uk-card mt-5 size-80 h-auto lg:w-96">
+                            <div class="uk-card-body space-y-4">
+                                <div class="space-y-2"> <label class="uk-form-label" for="text">Enter plaintext</label> <input class="uk-input" id="text-d" type="text" placeholder=""> </div>
+                                <div class="space-y-2"> <label class="uk-form-label" for="key">Enter key</label> <input class="uk-input" id="key-d" type="text" placeholder=""> </div>
+                                <div class="space-y-2"> <label class="uk-form-label" for="output">Output</label> <textarea class="uk-input h-20" id="output-d" type="text" placeholder="" readonly></textarea> </div>
+                            </div>
+                            <div class="uk-card-footer grid grid-cols-1 gap-2">
+                                
+                                <button class="uk-btn uk-btn-primary" onclick="processCipher('decrypt')">
+                                    <uk-icon icon="unlock"></uk-icon> &nbsp;Decrypt </button>
+                            </div>
+                        </div>
+                    
+                    </div>
+                    
+                    <div class="scroll-down mt-16 md:mt-8 lg:hidden">
+			        	<span class="scroll-wheel"></span><span class="scroll-title">Scroll Down</span>
+			        </div>
+                    
+<!--                     <div class="uk-card mt-8 size-80 h-auto lg:w-96">
                         <div class="uk-card-body space-y-4">
                             <div class="space-y-2"> <label class="uk-form-label" for="text">Enter plaintext</label> <input class="uk-input" id="text" type="text" placeholder=""> </div>
                             <div class="space-y-2"> <label class="uk-form-label" for="key">Enter key</label> <input class="uk-input" id="key" type="text" placeholder=""> </div>
@@ -97,7 +175,7 @@
                             <button class="uk-btn uk-btn-default uk-btn-secondary" onclick="processCipher('decrypt')">
                                 <uk-icon icon="unlock"></uk-icon> &nbsp;Decrypt </button>
                         </div>
-                    </div>
+                    </div> -->
 <!--                     <dotlottie-player class="mt-24 lg:mt-5" src="https://lottie.host/02cf4489-1c27-4e9f-9e84-4ef96f79d401/Ea847o35qw.lottie" background="transparent" speed="1" style="width: 100px; height: 100px;" loop autoplay></dotlottie-player> -->
                     <div class="size-80 h-auto lg:w-96 mt-24">
                         <h3 class="text-xl font-bold tracking-tight pt-5 pb-2">About Vigenère Cipher</h3>
