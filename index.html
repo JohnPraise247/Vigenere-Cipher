@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="dark uk-theme-zinc uk-radii-md uk-shadows-sm uk-font-sm uk-chart-default">
+
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -97,9 +98,15 @@
                 let generatedKey = generateKey(text, key);
                 let output = action === "decrypt" ? originalText(text, generatedKey) : cipherText(text, generatedKey);
                 document.getElementById("output-" + (action == "encrypt"?"e":"d") ).value = output;
+                // let text = document.getElementById("text").value.toUpperCase().replace(/[^A-Z]/g, "");
+                // let key = document.getElementById("key").value.toUpperCase().replace(/[^A-Z]/g, "");
+                // let generatedKey = generateKey(text, key);
+                // let output = action === "decrypt" ? originalText(text, generatedKey) : cipherText(text, generatedKey);
+                // document.getElementById("output").value = output;
             }
         </script>
     </head>
+
     <body class="bg-background font-geist-sans text-foreground antialiased">
         <div class="h-screen">
             <div class="flex flex-col lg:flex-row items-center justify-between space-y-2">
@@ -108,7 +115,7 @@
                     <p class="text-muted-foreground"> A Polyalphabetic Substitution Cipher </p>
                 </div>
                 <div class="py-8 flex flex-1 flex-col items-center justify-center">
-                    <div class="flex-none hidden lg:block lg:pt-8">
+                    <div class="flex-none hidden lg:block lg:pt-16">
                         <a class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent ring-ring focus:outline-none focus-visible:ring-1" href="#" role="button">
                             <span class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full">
                                 <img class="aspect-square h-full w-full" alt="logo" src="fuoye.jpg">
@@ -153,15 +160,79 @@
                     <div class="scroll-down mt-8">
 			        	<span class="scroll-wheel"></span><span class="scroll-title">Scroll Down</span>
 			        </div>
+                    
                     <div class="size-80 h-auto lg:w-96 mt-24">
                         <h3 class="text-xl font-bold tracking-tight pt-5 pb-2">About Vigenère Cipher</h3>
                         <p class="text-muted-foreground"> The Vigenère Cipher is a method of encrypting alphabetic text using a polyalphabetic substitution technique. It was first described by Giovanni Battista Bellaso in 1553, but it became widely known after being misattributed to Blaise de Vigenère, a French diplomat, in the 19th century. The cipher was considered unbreakable for centuries and was nicknamed "Le Chiffre Indéchiffrable" (The Indecipherable Cipher) until it was broken in the 19th century. </p>
                     </div>
                     <div class="size-80 h-auto lg:w-96 mt-20">
-                        <h4 class="text-lg font-bold tracking-tight pt-5 pb-2">Vigenère Cipher Table (Tabula Recta)</h4>
-                        <p class="text-muted-foreground"> The cipher uses a Vigenère square (also called Tabula Recta) to shift letters based on a repeating key. You can view a Vigenère table here:</p>
+                        <h4 class="text-lg font-bold tracking-tight pt-5 pb-2">Vigenère Table (Tabula Recta)</h4>
+                        <p class="text-muted-foreground"> The Vigenère table is a 26×26 grid of letters used to encrypt or decrypt text with the Vigenère cipher. The table consists of the alphabet repeated in each row, with each row starting one letter further along than the previous one.</p>
+                        
                         <img class="mt-5 rounded" src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Vigen%C3%A8re_square_shading.svg" />
+                        <p class="text-muted-foreground mt-5">- Top row = plaintext letter</p>
+                        <p class="text-muted-foreground">- Left column = key letter</p>
+                        <p class="text-muted-foreground">- Cell = encrypted letter</p>
                     </div>
+                    
+                    <div class="size-80 h-auto lg:w-96 mt-20">
+                        <h4 class="text-lg font-bold tracking-tight pt-5 pb-2">Algebraic Ciphering</h4>
+                        <p class="text-muted-foreground"> The Vigenère cipher can also be described as an algebraic cipher because it uses principles of modular arithmetic over the set of integers modulo 26 (ℤ/26ℤ).</p>
+                        <p class="text-muted-foreground mt-2">In this form, each letter is represented by a number (A = 0 to Z = 25), and encryption is performed using modular addition:</p>
+                        
+                        
+                           <h5 class="text-xl font-semibold mt-5">Steps</h5>
+
+                           <div>
+                             <h5 class="text-md font-bold text-accent-400 mt-1">1. Convert letters to numbers</h5>
+                             <p class="ml-4 text-muted-foreground">Assign each letter a number:</p>
+                             <p class="font-mono text-sm ml-4 text-muted-foreground" style="font-family:monospace">A = 0, B = 1, ..., Z = 25</p>
+                   
+                             <p class="mt-2 ml-4 text-muted-foreground">For example:</p>
+                             <ul class="list-disc ml-10 text-muted-foreground">
+                               [Plain text]
+                               <li><code>F</code> → 5</li>
+                               <li><code>U</code> → 20</li>
+                               <li><code>O</code> → 14</li>
+                               <li><code>Y</code> → 24</li>
+                               <li class="mb-2"><code>E</code> → 4</li>
+                               
+                               [Key]
+                               <li><code>K</code> → 10</li>
+                               <li><code>E</code> → 4</li>
+                               <li><code>Y</code> → 24</li>
+                             </ul>
+                           </div>
+                           
+                           <div>
+                             <h5 class="text-md font-bold text-accent-400 mt-2">2. Apply the Vigenère Formula</h5>
+                             <p class="text-muted-foreground ml-4">Use the formula:</p>
+                             <div class="bg-gray-50 p-2 rounded text-sm overflow-auto text-muted-foreground ml-4" style="font-family:monospace">
+                               Encrypted = (Plaintext + Key) mod 26
+                             </div>
+                   
+                             <p class="mt-2 ml-4 text-muted-foreground">Example values:</p>
+                             <p class="ml-4 text-muted-foreground">Plaintext = <code>F U O Y E</code> → [5, 20, 14, 24, 4]</p>
+                             <p class="ml-4 text-muted-foreground">Key = <code>K E Y K E</code> → [10, 4, 24, 10, 4]</p>
+                   
+                             <ul class="list-disc ml-6 text-muted-foreground">
+                               <li>(5 + 10) mod 26 = 15 → <strong>P</strong></li>
+                               <li>(20 + 4) mod 26 = 24 → <strong>Y</strong></li>
+                               <li>(14 + 24) mod 26 = 38 mod 26 = 12 → <strong>M</strong></li>
+                               <li>(24 + 10) mod 26 = 34 mod 26 = 8 → <strong>I</strong></li>
+                               <li>(4 + 4) mod 26 = 8 → <strong>I</strong></li>
+                             </ul>
+                           </div>
+                           
+                           <div>
+                             <h5 class="text-md font-bold text-accent-400 mt-2">3. Convert Back to Letters</h5>
+                             <p class="ml-4 text-muted-foreground">Result: <span class="font-bold text-primary">PYMII</span></p>
+                           </div>
+
+    
+                      
+                    </div>
+                    
                     <div class="size-80 h-auto lg:w-96 mt-20">
                         <h4 class="text-lg font-bold tracking-tight pt-5 pb-2">Methods to Solve (Break) the Vigenère Cipher</h4>
                         <p class="text-muted-foreground mb-5">Despite its initial reputation as unbreakable, several methods were developed to decrypt Vigenère-encrypted messages:</p>
@@ -190,6 +261,16 @@
                                                     <uk-icon icon="link"></uk-icon>
                                                 </span>
                                                 <span>Wikipedia</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="mt-2">
+                                        <a href="https://www.instructables.com/Basics-of-Cryptography-Vigen%C3%A9re-Cipher/" target="_blank" class="justify-between">
+                                            <div class="flex items-center gap-x-2">
+                                                <span class="size-4">
+                                                    <uk-icon icon="link"></uk-icon>
+                                                </span>
+                                                <span>Instructables</span>
                                             </div>
                                         </a>
                                     </li>
