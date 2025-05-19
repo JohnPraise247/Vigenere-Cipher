@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" class="dark uk-theme-zinc uk-radii-md uk-shadows-sm uk-font-sm uk-chart-default">
-
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,8 +11,6 @@
         <link rel="stylesheet" href="https://unpkg.com/franken-ui@2.0.0/dist/css/utilities.min.css" />
         <script src="https://unpkg.com/franken-ui@2.0.0/dist/js/core.iife.js" type="module"></script>
         <script src="https://unpkg.com/franken-ui@2.0.0/dist/js/icon.iife.js" type="module"></script>
-        <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
-        <!--https://lottiefiles.com/free-animation/scroll-down-animation-zTxhgOO8wn-->
         <style>
             body {
                 font-family: "Poppin", sans-serif;
@@ -100,15 +97,9 @@
                 let generatedKey = generateKey(text, key);
                 let output = action === "decrypt" ? originalText(text, generatedKey) : cipherText(text, generatedKey);
                 document.getElementById("output-" + (action == "encrypt"?"e":"d") ).value = output;
-                // let text = document.getElementById("text").value.toUpperCase().replace(/[^A-Z]/g, "");
-                // let key = document.getElementById("key").value.toUpperCase().replace(/[^A-Z]/g, "");
-                // let generatedKey = generateKey(text, key);
-                // let output = action === "decrypt" ? originalText(text, generatedKey) : cipherText(text, generatedKey);
-                // document.getElementById("output").value = output;
             }
         </script>
     </head>
-
     <body class="bg-background font-geist-sans text-foreground antialiased">
         <div class="h-screen">
             <div class="flex flex-col lg:flex-row items-center justify-between space-y-2">
@@ -162,21 +153,6 @@
                     <div class="scroll-down mt-8">
 			        	<span class="scroll-wheel"></span><span class="scroll-title">Scroll Down</span>
 			        </div>
-                    
-<!--                     <div class="uk-card mt-8 size-80 h-auto lg:w-96">
-                        <div class="uk-card-body space-y-4">
-                            <div class="space-y-2"> <label class="uk-form-label" for="text">Enter plaintext</label> <input class="uk-input" id="text" type="text" placeholder=""> </div>
-                            <div class="space-y-2"> <label class="uk-form-label" for="key">Enter key</label> <input class="uk-input" id="key" type="text" placeholder=""> </div>
-                            <div class="space-y-2"> <label class="uk-form-label" for="output">Output</label> <textarea class="uk-input h-20" id="output" type="text" placeholder="" readonly disabled></textarea> </div>
-                        </div>
-                        <div class="uk-card-footer grid grid-cols-2 gap-2">
-                            <button class="uk-btn uk-btn-primary" onclick="processCipher('encrypt')">
-                                <uk-icon icon="lock"></uk-icon> &nbsp;Encrypt </button>
-                            <button class="uk-btn uk-btn-default uk-btn-secondary" onclick="processCipher('decrypt')">
-                                <uk-icon icon="unlock"></uk-icon> &nbsp;Decrypt </button>
-                        </div>
-                    </div> -->
-<!--                     <dotlottie-player class="mt-24 lg:mt-5" src="https://lottie.host/02cf4489-1c27-4e9f-9e84-4ef96f79d401/Ea847o35qw.lottie" background="transparent" speed="1" style="width: 100px; height: 100px;" loop autoplay></dotlottie-player> -->
                     <div class="size-80 h-auto lg:w-96 mt-24">
                         <h3 class="text-xl font-bold tracking-tight pt-5 pb-2">About Vigenère Cipher</h3>
                         <p class="text-muted-foreground"> The Vigenère Cipher is a method of encrypting alphabetic text using a polyalphabetic substitution technique. It was first described by Giovanni Battista Bellaso in 1553, but it became widely known after being misattributed to Blaise de Vigenère, a French diplomat, in the 19th century. The cipher was considered unbreakable for centuries and was nicknamed "Le Chiffre Indéchiffrable" (The Indecipherable Cipher) until it was broken in the 19th century. </p>
